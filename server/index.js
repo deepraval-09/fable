@@ -3,7 +3,11 @@ import cors from "cors";
 import "dotenv/config";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://freehour-psi.vercel.app", "http://localhost:5173"],
+  })
+);
 
 const tmdb = async (path) => {
   const res = await fetch(`https://api.themoviedb.org/3${path}`, {
