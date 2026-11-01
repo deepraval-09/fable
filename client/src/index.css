@@ -1,0 +1,36 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0f1117;
+  color: #f1f1f1;
+  font-family: system-ui, sans-serif;
+}
+
+.app { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+
+header { margin-bottom: 32px; }
+header h1 { font-size: 2rem; }
+header p { color: #9aa0ac; margin-top: 4px; }
+
+.row { margin-bottom: 36px; }
+.row h2 { margin-bottom: 12px; }
+
+.cards {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.card { min-width: 150px; max-width: 150px; }
+.card img { width: 150px; height: 225px; object-fit: cover; border-radius: 8px; }
+.no-poster {
+  width: 150px; height: 225px; border-radius: 8px;
+  background: #1c1f2a; display: flex;
+  align-items: center; justify-content: center; color: #6b7280;
+}
+.name { margin-top: 8px; font-size: 0.9rem; font-weight: 600; }
+.card small { color: #9aa0ac; }
+.msg { color: #9aa0ac; }
+
+footer { margin-top: 40px; color: #6b7280; font-size: 0.8rem; text-align: center; }
