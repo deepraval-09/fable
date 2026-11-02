@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Scroller from "./Scroller";
 
 const IMG = "https://image.tmdb.org/t/p/w342";
 
@@ -11,11 +13,10 @@ const fmt = (d) =>
       })
     : "TBA";
 
-export default function MovieRow({ id, title, endpoint, sort }) {
+export default function MovieRow({ id, title, endpoint, sort, type }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const ref = useRef(null);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}${endpoint}`)
@@ -36,25 +37,19 @@ export default function MovieRow({ id, title, endpoint, sort }) {
       .finally(() => setLoading(false));
   }, [endpoint, sort]);
 
-  const scroll = (dir) =>
-    ref.current?.scrollBy({ left: dir * 640, behavior: "smooth" });
-
   return (
     <section className="row" id={id}>
       <h2>{title}</h2>
       {error && <p className="msg">Could not load data. Please try again.</p>}
 
-      <button className="arrow left" onClick={() => scroll(-1)} aria-label="Scroll left">‹</button>
-      <button className="arrow right" onClick={() => scroll(1)} aria-label="Scroll right">›</button>
-
-      <div className="cards" ref={ref}>
+      <Scroller>
         {loading &&
           Array.from({ length: 8 }).map((_, n) => (
             <div className="skeleton" key={n} />
           ))}
 
         {items.map((m) => (
-          <div className="card" key={m.id}>
+          <Link className="card" key={m.id} to={`/${type}/${m.id}`}>
             <div className="poster">
               <img
                 src={`${IMG}${m.poster_path}`}
@@ -67,9 +62,9 @@ export default function MovieRow({ id, title, endpoint, sort }) {
             </div>
             <p className="name">{m.title || m.name}</p>
             <small>{fmt(m.release_date || m.first_air_date)}</small>
-          </div>
+          </Link>
         ))}
-      </div>
+      </Scroller>
     </section>
   );
 }

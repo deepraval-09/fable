@@ -1,12 +1,28 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { SearchIcon } from "./Icons";
+
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <nav className="nav">
+    <nav className={scrolled ? "nav scrolled" : "nav"}>
       <div className="nav-inner">
-        <span className="logo">Free<span>hour</span></span>
+        <Link to="/" className="logo">Free<span>hour</span></Link>
         <div className="links">
-          <a href="#cinemas">In Cinemas</a>
-          <a href="#soon">Coming Soon</a>
-          <a href="#series">Web Series</a>
+          <Link to="/#cinemas">In Cinemas</Link>
+          <Link to="/#soon">Coming Soon</Link>
+          <Link to="/#series">Web Series</Link>
+          <Link to="/search" className="nav-search" aria-label="Search">
+            <SearchIcon />
+          </Link>
         </div>
       </div>
     </nav>
