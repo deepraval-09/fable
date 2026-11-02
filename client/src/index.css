@@ -39,7 +39,12 @@ body {
   background-size: cover; background-position: center top;
   display: flex; align-items: flex-end;
 }
-.hero-skeleton { background: var(--card); }
+.hero-skeleton {
+  background: var(--card);
+  align-items: center;
+  justify-content: center;
+}
+.wake { color: var(--muted); padding: 0 16px; text-align: center; }
 .hero-shade {
   position: absolute; inset: 0;
   background:

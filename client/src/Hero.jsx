@@ -5,7 +5,12 @@ const BACK = "https://image.tmdb.org/t/p/w1280";
 export default function Hero() {
   const [items, setItems] = useState([]);
   const [i, setI] = useState(0);
+  const [slow, setSlow] = useState(false);
 
+  useEffect(() => {
+    const t = setTimeout(() => setSlow(true), 4000);
+    return () => clearTimeout(t);
+  }, []);
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/trending`)
       .then((r) => r.json())
@@ -21,7 +26,16 @@ export default function Hero() {
     return () => clearInterval(t);
   }, [items]);
 
-  if (!items.length) return <div className="hero hero-skeleton" />;
+    if (!items.length)
+    return (
+      <div className="hero hero-skeleton">
+        {slow && (
+          <p className="wake">
+            Waking up the server... this can take up to a minute on the first visit.
+          </p>
+        )}
+      </div>
+    );
 
   const m = items[i];
   const date = m.release_date || m.first_air_date || "";
