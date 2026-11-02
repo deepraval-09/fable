@@ -7,6 +7,8 @@ const IMG = "https://image.tmdb.org/t/p/w342";
 export default function Search() {
   const [params, setParams] = useSearchParams();
   const q = (params.get("q") || "").trim();
+  const lang = params.get("lang") || "all"; // Catch the language from the URL if present
+  
   const [text, setText] = useState(q);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,27 +17,24 @@ export default function Search() {
 
   useEffect(() => {
     inputRef.current?.focus();
-    document.title = "Search | Freehour";
+    document.title = "Search | Fable";
     return () => {
-      document.title = "Freehour | New Movies & Web Series";
+      document.title = "Fable | New Movies & Web Series";
     };
   }, []);
 
-  // Typing updates the URL after a short pause
   useEffect(() => {
     const t = setTimeout(() => {
       const next = text.trim();
-      if (next !== q) setParams(next ? { q: next } : {}, { replace: true });
+      if (next !== q) setParams(next ? { q: next, lang } : { lang }, { replace: true });
     }, 400);
     return () => clearTimeout(t);
-  }, [text]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [text, lang, q, setParams]); 
 
-  // Back/forward buttons update the box
   useEffect(() => {
     setText((t) => (t.trim() === q ? t : q));
   }, [q]);
 
-  // Fetch results
   useEffect(() => {
     if (q.length < 2) {
       setResults([]);
@@ -46,7 +45,9 @@ export default function Search() {
     let cancelled = false;
     setLoading(true);
     setError(false);
-    fetch(`${import.meta.env.VITE_API_URL}/api/search?q=${encodeURIComponent(q)}`)
+    
+    // Updated: Send the language parameter to the backend
+    fetch(`${import.meta.env.VITE_API_URL}/api/search?q=${encodeURIComponent(q)}&lang=${lang}`)
       .then((r) => {
         if (!r.ok) throw new Error();
         return r.json();
@@ -63,7 +64,7 @@ export default function Search() {
     return () => {
       cancelled = true;
     };
-  }, [q]);
+  }, [q, lang]);
 
   return (
     <main className="container search-page">

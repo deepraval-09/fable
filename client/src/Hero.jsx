@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const BACK = "https://image.tmdb.org/t/p/w1280";
 
-export default function Hero() {
+export default function Hero({ lang = "all" }) {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [i, setI] = useState(0);
@@ -12,20 +12,20 @@ export default function Hero() {
   const dragged = useRef(false);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/trending`)
+    // Updated: Fetch India-first trending based on language prop
+    fetch(`${import.meta.env.VITE_API_URL}/api/trending?lang=${lang}`)
       .then((r) => r.json())
       .then((d) =>
         setItems((d.results || []).filter((m) => m.backdrop_path).slice(0, 5))
       )
       .catch(() => {});
-  }, []);
+  }, [lang]); // Re-fetch if language changes
 
   useEffect(() => {
     const t = setTimeout(() => setSlow(true), 4000);
     return () => clearTimeout(t);
   }, []);
 
-  // Auto-advance after 6 seconds. Restarts after every slide change.
   useEffect(() => {
     if (items.length < 2) return;
     const t = setTimeout(() => setI((x) => (x + 1) % items.length), 6000);
