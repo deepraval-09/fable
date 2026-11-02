@@ -34,7 +34,7 @@ const getDate = (days = 0) => new Date(Date.now() + days * 864e5).toISOString().
 
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
-// Updated: India-first Trending for the Hero Banner
+// 🚀 THE FIX: Use /discover to enforce the India region
 app.get("/api/trending", async (req, res) => {
   const lang = req.query.lang && req.query.lang !== "all" ? `&with_original_language=${req.query.lang}` : "";
   try {
@@ -72,7 +72,6 @@ app.get("/api/series/on-air", async (req, res) => {
   } catch { res.status(500).json({ error: "Failed" }); }
 });
 
-// Updated: Details page now uses YouTube Fallback API
 app.get("/api/details/:type/:id", async (req, res) => {
   const { type, id } = req.params;
   if (!["movie", "tv"].includes(type) || !/^\d+$/.test(id)) {
@@ -83,7 +82,6 @@ app.get("/api/details/:type/:id", async (req, res) => {
       `/${type}/${id}?append_to_response=videos,credits,similar,watch/providers`
     );
 
-    // 🚀 THE FIX: If TMDB has no YouTube trailer, we scrape it manually!
     const hasTrailer = data.videos?.results?.some(v => v.type === "Trailer" && v.site === "YouTube");
     
     if (!hasTrailer) {
@@ -113,7 +111,6 @@ app.get("/api/details/:type/:id", async (req, res) => {
   }
 });
 
-// Updated: Search now respects language filters
 app.get("/api/search", async (req, res) => {
   const q = String(req.query.q || "").trim().slice(0, 100);
   const lang = req.query.lang || "all";
@@ -127,7 +124,6 @@ app.get("/api/search", async (req, res) => {
     let results = (data.results || [])
       .filter((m) => (m.media_type === "movie" || m.media_type === "tv") && m.poster_path);
 
-    // Filter by language if the user selected one
     if (lang !== "all") {
       results = results.filter(m => m.original_language === lang);
     }

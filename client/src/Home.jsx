@@ -16,7 +16,8 @@ export default function Home() {
 
   return (
     <>
-      <Hero lang="{lang}"/>
+      {/* 🚀 THE FIX: Removed the quotes around {lang} */}
+      <Hero lang={lang} />
       <main className="container">
         
         {/* Language Filter Bar */}
