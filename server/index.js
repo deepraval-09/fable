@@ -31,7 +31,10 @@ app.get("/api/series/on-air", async (req, res) => {
   try { res.json(await tmdb("/tv/on_the_air")); }
   catch { res.status(500).json({ error: "Failed" }); }
 });
-
+app.get("/api/trending", async (req, res) => {
+  try { res.json(await tmdb("/trending/all/day")); }
+  catch { res.status(500).json({ error: "Failed" }); }
+});
 app.get("/api/:type/:id/providers", async (req, res) => {
   try {
     const { type, id } = req.params;
