@@ -7,7 +7,7 @@ const app = express();
 app.use(compression());
 app.use(
   cors({
-    origin: ["https://freehour-api.onrender.com", "http://localhost:5173"],
+    origin: ["https://fable-movies.vercel.app", "http://localhost:5173"],
   })
 );
 
