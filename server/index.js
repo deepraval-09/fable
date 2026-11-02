@@ -7,7 +7,7 @@ const app = express();
 app.use(compression());
 app.use(
   cors({
-    origin: ["https://fable-movies.vercel.app/", "http://localhost:5173"],
+    origin: ["[https://fable-movies.vercel.app](https://fable-movies.vercel.app)", "http://localhost:5173"],
   })
 );
 
