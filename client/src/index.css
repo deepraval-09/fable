@@ -1,10 +1,10 @@
 :root {
-  --bg: #0b0d14;
-  --card: #151824;
+  --bg: #000000;
+  --card: #111111;
   --text: #f3f4f6;
   --muted: #9aa0ac;
-  --accent: #ff4d6d;
-  --accent2: #7c3aed;
+  --accent: #ff0000;
+  --accent2: #e60000;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,11 +18,11 @@ body {
 /* Navbar */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-  background: linear-gradient(to bottom, rgba(11,13,20,.95), rgba(11,13,20,0));
+  background: linear-gradient(to bottom, rgba(0,0,0,.95), rgba(0,0,0,0));
   transition: background .25s, box-shadow .25s;
 }
 .nav.scrolled {
-  background: rgba(11, 13, 20, .88);
+  background: rgba(0, 0, 0, .88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 1px 0 rgba(255, 255, 255, .06);
@@ -32,12 +32,13 @@ body {
   display: flex; justify-content: space-between; align-items: center;
 }
 .logo {
-  font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px;
-  color: inherit; text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 1.6rem; font-weight: 900; letter-spacing: 1px;
+  color: #ffffff; text-decoration: none;
 }
-.logo span {
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+.logo-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
 }
 .links { display: flex; gap: 22px; }
 .links a { color: var(--muted); text-decoration: none; font-size: .9rem; transition: color .2s; }
@@ -58,8 +59,8 @@ body {
 .hero-shade {
   position: absolute; inset: 0;
   background:
-    linear-gradient(to top, var(--bg) 4%, rgba(11,13,20,.15) 60%),
-    linear-gradient(to right, rgba(11,13,20,.85) 8%, transparent 65%);
+    linear-gradient(to top, var(--bg) 4%, rgba(0,0,0,.15) 60%),
+    linear-gradient(to right, rgba(0,0,0,.85) 8%, transparent 65%);
 }
 .hero-content {
   position: relative; max-width: 1200px; width: 100%;
@@ -115,7 +116,7 @@ a.card { color: inherit; text-decoration: none; display: block; }
   border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.45);
   transition: box-shadow .25s;
 }
-.card:hover img { box-shadow: 0 10px 28px rgba(255,77,109,.35); }
+.card:hover img { box-shadow: 0 10px 28px rgba(255,0,0,.35); }
 .rating {
   position: absolute; top: 8px; right: 8px;
   background: rgba(0,0,0,.75); color: #fbbf24;
@@ -126,7 +127,7 @@ a.card { color: inherit; text-decoration: none; display: block; }
 
 .skeleton {
   flex: 0 0 160px; height: 240px; border-radius: 12px;
-  background: linear-gradient(90deg, #151824 25%, #1d2133 50%, #151824 75%);
+  background: linear-gradient(90deg, #111 25%, #222 50%, #111 75%);
   background-size: 200% 100%; animation: shimmer 1.4s infinite;
 }
 @keyframes shimmer { to { background-position: -200% 0; } }
@@ -237,8 +238,8 @@ footer { padding: 30px 16px; color: #6b7280; font-size: .8rem; text-align: cente
   .hero-shade {
     background: linear-gradient(
       to bottom,
-      rgba(11, 13, 20, .55) 0,
-      rgba(11, 13, 20, 0) 22vw,
+      rgba(0, 0, 0, .55) 0,
+      rgba(0, 0, 0, 0) 22vw,
       var(--bg) 56vw
     );
   }
@@ -305,7 +306,7 @@ footer { padding: 30px 16px; color: #6b7280; font-size: .8rem; text-align: cente
 @media (max-width: 700px) {
   .bottom-nav {
     display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
-    background: rgba(11, 13, 20, .92);
+    background: rgba(0, 0, 0, .92);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid rgba(255,255,255,.08);
     padding-bottom: env(safe-area-inset-bottom);

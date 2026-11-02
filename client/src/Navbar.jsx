@@ -15,7 +15,10 @@ export default function Navbar() {
   return (
     <nav className={scrolled ? "nav scrolled" : "nav"}>
       <div className="nav-inner">
-        <Link to="/" className="logo">Free<span>hour</span></Link>
+        <Link to="/" className="logo">
+          <img src="/favicon.svg" alt="Fable Logo" className="logo-icon" />
+          FABLE
+        </Link>
         <div className="links">
           <Link to="/#cinemas">In Cinemas</Link>
           <Link to="/#soon">Coming Soon</Link>
