@@ -28,9 +28,9 @@ export default function Details({ type }) {
   }, [type, id]);
 
   useEffect(() => {
-    if (data) document.title = `${data.title || data.name} | Freehour`;
+    if (data) document.title = `${data.title || data.name} | Fable`;
     return () => {
-      document.title = "Freehour | New Movies & Web Series";
+      document.title = "Fable | New Movies & Web Series";
     };
   }, [data]);
 
@@ -82,20 +82,29 @@ export default function Details({ type }) {
           <div className="d-info">
             <h1>{title}</h1>
             {data.tagline && <p className="tagline">{data.tagline}</p>}
-            <div className="meta">
-              {data.vote_average > 0 && <span>★ {data.vote_average.toFixed(1)}</span>}
+            
+            <div className="meta" style={{ display: "flex", gap: "15px", flexWrap: "wrap", alignItems: "center" }}>
+              {/* TMDB Rating */}
+              {data.vote_average > 0 && <span style={{ background: "rgba(255,255,255,0.1)", padding: "4px 8px", borderRadius: "4px" }}>TMDB ★ {data.vote_average.toFixed(1)}</span>}
+              
+              {/* 🚀 NEW: IMDb Rating from OMDb API */}
+              {data.imdb_rating && <span style={{ background: "#f5c518", color: "black", padding: "4px 8px", borderRadius: "4px", fontWeight: "bold" }}>IMDb ★ {data.imdb_rating}</span>}
+
               {date && (
                 <span>
                   {new Date(date).toLocaleDateString("en-IN", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
+                    day: "numeric", month: "short", year: "numeric",
                   })}
                 </span>
               )}
               {runtime && <span>{runtime}</span>}
+
+              {/* 🚀 NEW: TVmaze Network & Status (Only shows for TV series) */}
+              {data.tvmaze_network && <span>Network: {data.tvmaze_network}</span>}
+              {data.tvmaze_status && <span style={{ color: data.tvmaze_status === "Ended" ? "var(--muted)" : "#4ade80" }}>{data.tvmaze_status}</span>}
             </div>
-            <div className="chips">
+
+            <div className="chips" style={{ marginTop: "15px" }}>
               {(data.genres || []).map((g) => (
                 <span className="chip" key={g.id}>{g.name}</span>
               ))}

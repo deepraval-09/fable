@@ -4,8 +4,8 @@ import { HomeIcon, FilmIcon, CalendarIcon, TvIcon, SearchIcon } from "./Icons";
 const tabs = [
   { to: "/", label: "Home", Icon: HomeIcon },
   { to: "/#cinemas", label: "Cinemas", Icon: FilmIcon },
-  { to: "/#soon", label: "Soon", Icon: CalendarIcon },
-  { to: "/#series", label: "Series", Icon: TvIcon },
+  { to: "/#soon", label: "Soon", Icon: CalendarIcon }, // Brought back 'Soon'
+  { to: "/platforms", label: "OTT", Icon: TvIcon },    // 🚀 Swapped 'Series' for 'OTT', kept TvIcon
   { to: "/search", label: "Search", Icon: SearchIcon },
 ];
 
@@ -14,6 +14,7 @@ export default function BottomNav() {
 
   const isActive = (to) => {
     if (to === "/search") return pathname.startsWith("/search");
+    if (to === "/platforms") return pathname.startsWith("/platforms"); 
     const [p, h = ""] = to.split("#");
     return pathname === p && hash === (h ? `#${h}` : "");
   };

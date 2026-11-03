@@ -23,6 +23,7 @@ export default function Navbar() {
           <Link to="/#cinemas">In Cinemas</Link>
           <Link to="/#soon">Coming Soon</Link>
           <Link to="/#series">Web Series</Link>
+          <Link to="/platforms">OTT Platforms</Link> {/* NEW LINK */}
           <Link to="/search" className="nav-search" aria-label="Search">
             <SearchIcon />
           </Link>

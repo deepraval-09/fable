@@ -16,11 +16,9 @@ export default function Home() {
 
   return (
     <>
-      {/* 🚀 THE FIX: Removed the quotes around {lang} */}
       <Hero lang={lang} />
       <main className="container">
         
-        {/* Language Filter Bar */}
         <div style={{
           display: "flex", gap: "10px", overflowX: "auto",
           padding: "10px 0 24px", scrollbarWidth: "none"
@@ -43,10 +41,18 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Dynamic Filtered Movie Rows */}
+        {/* Core Rows */}
         <MovieRow id="cinemas" title="In Cinemas Now" endpoint={`/api/movies/now-playing?lang=${lang}`} sort="newest" type="movie" />
         <MovieRow id="soon" title="Coming Soon" endpoint={`/api/movies/upcoming?lang=${lang}`} sort="soonest" type="movie" />
         <MovieRow id="series" title="New Web Series" endpoint={`/api/series/on-air?lang=${lang}`} sort="newest" type="tv" />
+
+        {/* OTT Rows - Only Netflix and Prime Video remain */}
+        <div className="ott-section" style={{ marginTop: "40px" }}>
+          <h2 style={{ marginBottom: "20px", fontSize: "1.5rem", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "10px" }}>Streaming Now</h2>
+          <MovieRow id="netflix" title="Trending on Netflix" endpoint={`/api/ott/8?type=movie&lang=${lang}`} sort="newest" type="movie" />
+          <MovieRow id="prime" title="Trending on Prime Video" endpoint={`/api/ott/119?type=movie&lang=${lang}`} sort="newest" type="movie" />
+        </div>
+        
       </main>
     </>
   );
