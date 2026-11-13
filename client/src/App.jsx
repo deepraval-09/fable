@@ -6,6 +6,7 @@ import Home from "./Home";
 import Details from "./Details";
 import Search from "./Search";
 import Platforms from "./Platforms";
+import Watch from "./Watch"; // 🚀 NEW: Import the dedicated Watch page
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
@@ -32,14 +33,14 @@ export default function App() {
         <Route path="/platforms" element={<Platforms />} />
         <Route path="/movie/:id" element={<Details type="movie" />} />
         <Route path="/tv/:id" element={<Details type="tv" />} />
+        <Route path="/watch/:type/:id" element={<Watch />} /> {/* 🚀 NEW: Dedicated Watch Route */}
         <Route path="/search" element={<Search />} />
         <Route path="*" element={<div className="page-msg">Page not found.</div>} />
       </Routes>
       
-      {/* 🚀 UPDATED: Professional Fable Footer */}
       <footer style={{
         textAlign: "center",
-        padding: "30px 20px 100px", // 100px bottom padding ensures the mobile BottomNav doesn't cover it
+        padding: "30px 20px 100px",
         marginTop: "40px",
         color: "var(--muted, #888)",
         borderTop: "1px solid rgba(255,255,255,0.1)",

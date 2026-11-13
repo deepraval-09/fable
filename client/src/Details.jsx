@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom"; // 🚀 Added useNavigate
 import Scroller from "./Scroller";
 
 const BACK = "https://image.tmdb.org/t/p/w1280";
@@ -10,6 +10,7 @@ const LOGO = "https://image.tmdb.org/t/p/w92";
 
 export default function Details({ type }) {
   const { id } = useParams();
+  const navigate = useNavigate(); // 🚀 Navigation hook
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -84,12 +85,8 @@ export default function Details({ type }) {
             {data.tagline && <p className="tagline">{data.tagline}</p>}
             
             <div className="meta" style={{ display: "flex", gap: "15px", flexWrap: "wrap", alignItems: "center" }}>
-              {/* TMDB Rating */}
               {data.vote_average > 0 && <span style={{ background: "rgba(255,255,255,0.1)", padding: "4px 8px", borderRadius: "4px" }}>TMDB ★ {data.vote_average.toFixed(1)}</span>}
-              
-              {/* 🚀 NEW: IMDb Rating from OMDb API */}
               {data.imdb_rating && <span style={{ background: "#f5c518", color: "black", padding: "4px 8px", borderRadius: "4px", fontWeight: "bold" }}>IMDb ★ {data.imdb_rating}</span>}
-
               {date && (
                 <span>
                   {new Date(date).toLocaleDateString("en-IN", {
@@ -98,8 +95,6 @@ export default function Details({ type }) {
                 </span>
               )}
               {runtime && <span>{runtime}</span>}
-
-              {/* 🚀 NEW: TVmaze Network & Status (Only shows for TV series) */}
               {data.tvmaze_network && <span>Network: {data.tvmaze_network}</span>}
               {data.tvmaze_status && <span style={{ color: data.tvmaze_status === "Ended" ? "var(--muted)" : "#4ade80" }}>{data.tvmaze_status}</span>}
             </div>
@@ -110,18 +105,39 @@ export default function Details({ type }) {
               ))}
             </div>
             <p className="overview">{data.overview || "No overview available yet."}</p>
-            {trailer && (
-              <button className="btn" onClick={() => setPlaying((p) => !p)}>
-                {playing ? "Close trailer" : "▶ Watch trailer"}
+            
+            <div style={{ display: "flex", gap: "15px", marginTop: "20px", flexWrap: "wrap" }}>
+              {/* 🚀 Routes to the new dedicated Watch page */}
+              <button 
+                className="btn" 
+                style={{ background: "#E50914", color: "white", fontWeight: "bold", border: "none" }} 
+                onClick={() => navigate(`/watch/${type}/${id}`)}
+              >
+                🎬 Watch Now
               </button>
-            )}
+
+              {trailer && (
+                <button 
+                  className="btn" 
+                  onClick={() => setPlaying((p) => !p)}
+                >
+                  {playing ? "Close trailer" : "▶ Watch trailer"}
+                </button>
+              )}
+            </div>
+
           </div>
         </div>
       </section>
 
       <main className="container d-main">
+        
         {playing && trailer && (
-          <div className="trailer">
+          <div className="trailer" style={{ marginBottom: "40px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
+              <h3 style={{ margin: 0, fontSize: "1.5rem" }}>Official Trailer</h3>
+              <button className="btn" style={{ padding: "5px 15px", fontSize: "0.9rem", background: "rgba(255,255,255,0.1)" }} onClick={() => setPlaying(false)}>✕ Close</button>
+            </div>
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${trailer.key}?autoplay=1`}
               title="Trailer"
@@ -149,7 +165,7 @@ export default function Details({ type }) {
             ))
           ) : (
             <p className="msg">
-              No streaming info yet. It may still be in cinemas or not announced.
+              No official streaming info yet. It may still be in cinemas or not announced.
             </p>
           )}
           <small className="credit">Streaming data by JustWatch, via TMDB.</small>
